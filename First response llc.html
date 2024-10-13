@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Response Electric LLC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #555555;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .logo {
+            max-width: 200px; 
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+        nav a:hover {
+            color: #ecf0f1;
+            transform: scale(1.1);
+        }
+
+        nav a:active {
+            transform: scale(0.9);
+        }
+
+        section {
+            padding: 40px;
+            margin: 10px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .cta {
+            display: inline-block;
+            background: #777777;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .cta:hover {
+            background: #555555;
+        }
+
+        .review {
+            margin-bottom: 10px;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #555555;
+            color: #ffffff;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://scontent-mia3-1.xx.fbcdn.net/v/t39.30808-6/461621206_10227502322172168_8132269522905795478_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=g4HFOrPDrdEQ7kNvgErmGss&_nc_ht=scontent-mia3-1.xx&_nc_gid=AuQAXiXbjnc5fU07xgTYp8H&oh=00_AYAP4FML7O84CtCWqBRQOXoPZDsxJf2GfcQigLFvkyUncA&oe=6711324F" alt="First Response Electric LLC Logo" class="logo">
+        <h1>First Response Electric LLC</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h2>Your Trusted Electricians</h2>
+        <p>Professional electrical services for your home and business.</p>
+        <a href="#contact" class="cta">Request a Quote</a>
+    </section>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <p>At First Response Electric, we are dedicated to providing reliable electrical solutions inspired by our commitment to service and guided by Yahweh, ensuring that your electrical problems are resolved with integrity and care.</p>
+        <h3>Our Services</h3>
+        <ul>
+            <li>Residential Electrical Services</li>
+            <li>Commercial Electrical Services</li>
+            <li>Industrial Electrical Services</li>
+        </ul>
+    </section>
+
+    <section id="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div id="reviews-container"></div>
+        <textarea id="review-input" placeholder="Add your review here..." rows="4"></textarea>
+        <button id="add-review">Add Review</button>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <p>Phone: <a href="tel:+18509999012">850-999-9012</a></p>
+        <p>Email: <a href="mailto:mr.electrician@rocketmail.com">mr.electrician@rocketmail.com</a></p>
+    </section>
+
+    <footer>
+        <p>© 2024 First Response Electric LLC. All rights reserved - We can fix it!</p>
+    </footer>
+
+    <script>
+        const reviewsContainer = document.getElementById('reviews-container');
+        const reviewInput = document.getElementById('review-input');
+        const addReviewButton = document.getElementById('add-review');
+
+        // Load reviews from localStorage
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews.forEach(review => displayReview(review));
+        }
+
+        // Display a review in the container
+        function displayReview(reviewText) {
+            const reviewDiv = document.createElement('div');
+            reviewDiv.classList.add('review');
+            reviewDiv.innerHTML = `
+                <p>${reviewText}</p>
+                <button onclick="editReview(this)">Edit</button>
+                <button onclick="deleteReview(this)">Delete</button>
+            `;
+            reviewsContainer.appendChild(reviewDiv);
+        }
+
+        // Add a new review
+        function addReview() {
+            const reviewText = reviewInput.value.trim();
+            if (reviewText === '') return;
+
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews.push(reviewText);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+
+            displayReview(reviewText);
+            reviewInput.value = '';
+        }
+
+        // Edit a review
+        function editReview(button) {
+            const reviewDiv = button.parentElement;
+            const reviewText = reviewDiv.querySelector('p').textContent;
+            reviewInput.value = reviewText;
+            deleteReview(button);
+        }
+
+        // Delete a review and update localStorage
+        function deleteReview(button) {
+            const reviewDiv = button.parentElement;
+            const reviewText = reviewDiv.querySelector('p').textContent;
+
+            reviewsContainer.removeChild(reviewDiv);
+
+            let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews = reviews.filter(review => review !== reviewText);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+        }
+
+        addReviewButton.addEventListener('click', addReview);
+        loadReviews();
+    </script>
+</body>
+</html>
